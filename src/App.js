@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { Component } from 'react'
 import ProductList from './components/ProductList'
-import Navigate from './components/Navigate'
-function App() {
-  return (
-    <div>
-      <Navigate/>
+
+class App extends Component {
+
+
+  render() {
+    return (
+      <div>
+        
       <ProductList/>
     </div>
-  )
+    )
+  }
 }
 
 export default App

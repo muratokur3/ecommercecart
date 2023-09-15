@@ -1,7 +1,7 @@
 import React from "react";
 
-function Cart() {
-  return (
+function Cart(props) {
+  return props.cartOpenClose ? (
     <div id="cart-card">
       <table id="cart-table">
         <thead>
@@ -13,31 +13,27 @@ function Cart() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>4</td>
-            <td>Süt</td>
-            <td>34</td>
-            <td>sil</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Süt</td>
-            <td>34</td>
-            <td>sil</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Süt</td>
-            <td>34</td>
-            <td>sil</td>
-          </tr>
+          {props.cart.map((item) => (
+            <tr>
+              <td>{props.cartCount}</td>
+              <td>{item.name}</td>
+              <td>{item.price}</td>
+              <i
+                style={{ color: "black", right: 4 }}
+                class="fa-regular fa-trash-can"
+                onClick={() => {
+                  props.removeCart(item);
+                }}
+              ></i>
+            </tr>
+          ))}
         </tbody>
-        <tfoot>
-          
-        </tfoot>
+        <tfoot></tfoot>
       </table>
-      <h3>total 500 ₺</h3>
+      <h3>Toplam : {props.total} ₺</h3>
     </div>
+  ) : (
+    ""
   );
 }
 
