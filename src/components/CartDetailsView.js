@@ -1,6 +1,9 @@
 import React from "react";
 
-function CartDetailsView() {
+function CartDetailsView({ cart, total,decreaseCartItemQuantity }) {
+  let totalQuantity = 0;
+  cart.map((item) => (totalQuantity += item.productQuantity));
+
   return (
     <div>
       <div id="cart-detail">
@@ -14,29 +17,34 @@ function CartDetailsView() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-              <i class="fa-solid fa-circle-minus"></i>
-                {" "}
-                <i
-                  className="fa-solid fa-image fa-2xl"
-                  style={{ color: "#fecb3e" }}
-                ></i>
-                sütlü filtre kahve
-              </td>
-              <td>50 ₺</td>
-              <td>
-                <input
-                  type="number"
-                  id="quantity"
-                  name="quantity"
-                  min="1"
-                  max="5"
-                />{" "}
-              </td>
-              <td>50 ₺</td>
-            </tr>
+            {cart.map((item) => 
+              <tr key={item.id}>
+                <td>
+                  <i onClick={()=>decreaseCartItemQuantity(item)} className="fa-solid fa-circle-minus"></i>{" "}
+                  <i
+                    className="fa-solid fa-image fa-2xl"
+                    style={{ color: "#fecb3e" }}
+                  ></i>
+                  {item.name}
+                </td>
+                <td>{item.price}</td>
+                <td>
+                 {item.productQuantity}
+                </td>
+                <td>{item.productQuantity*item.price}</td>
+              </tr>
+            )}
           </tbody>
+          <thead>
+            <tr
+              style={{ color: "red", textAlign: "center", fontWeight: "800" }}
+            >
+              <td></td>
+              <td></td>
+              <td>Total Product Quantity : {totalQuantity}</td>
+              <td>Cart Total Price : {total}</td>
+            </tr>
+          </thead>
         </table>
       </div>
     </div>

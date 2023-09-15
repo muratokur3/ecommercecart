@@ -14,9 +14,9 @@ function Navigate(props) {
       <Cart
         cart={props.cart}
         total={props.total}
-        cartCount={props.cartCount}
         removeCart={props.removeCart}
         cartOpenClose={props.cartOpenClose}
+        cartDetailView={props.cartDetailView}
       />
     </div>
   );

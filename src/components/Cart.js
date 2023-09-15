@@ -6,21 +6,23 @@ function Cart(props) {
       <table id="cart-table">
         <thead>
           <tr>
-            <th>Count</th>
+            <th>Quantity</th>
             <th>Name</th>
             <th>Price</th>
+            <th>total price</th>
             <th>operation</th>
           </tr>
         </thead>
         <tbody>
           {props.cart.map((item) => (
-            <tr>
-              <td>{props.cartCount}</td>
+            <tr key={item.id}>
+              <td>{item.productQuantity}</td>
               <td>{item.name}</td>
               <td>{item.price}</td>
+              <td>{item.price*item.productQuantity}</td>
               <i
                 style={{ color: "black", right: 4 }}
-                class="fa-regular fa-trash-can"
+                className="fa-regular fa-trash-can"
                 onClick={() => {
                   props.removeCart(item);
                 }}
@@ -31,6 +33,7 @@ function Cart(props) {
         <tfoot></tfoot>
       </table>
       <h3>Toplam : {props.total} ₺</h3>
+      <button onClick={props.cartDetailView}>View Cart Detail Page</button>
     </div>
   ) : (
     ""

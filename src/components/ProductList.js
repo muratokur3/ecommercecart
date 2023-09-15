@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navigate from "./Navigate";
 import CartDetailsView from "./CartDetailsView";
+import Cart from "./Cart";
 
 function ProductList() {
   const [products, setProducts] = useState([
@@ -15,35 +16,62 @@ function ProductList() {
     { id: 9, name: "Çikolata", price: 20 },
   ]);
   const [cartCount, setCartCount] = useState(0);
-
   const [total, setTotal] = useState(0);
-
   const [cart, setCart] = useState([]);
-
   const [cartOpenClose, setcartOpenClose] = useState(false);
-
+  const [cartDetailOpened, setCartDetailOpened] = useState(true);
   const addCart = (product) => {
-    setCart([...cart, product]);
+    const urunvarmi = cart.find((item) => item.id === product.id);
+    if (urunvarmi) {
+      const ubdateCart = cart.map((item) =>
+        item.id === product.id
+          ? { ...item, productQuantity: item.productQuantity + 1 }
+          : item
+      );
+      setCart(ubdateCart);
+    } else {
+      setCart([...cart, { ...product, productQuantity: 1 }]);
+    }
     let cartSayi = cartCount + 1;
     setCartCount(cartSayi);
+    console.log(cart);
   };
 
   const removeCart = (product) => {
     setCart(cart.filter((cart) => cart.id !== product.id));
   };
+
+  const decreaseCartItemQuantity = (product) => {
+    const updatedCart = cart.map((item) => 
+    {
+      if (item.id === product.id && item.productQuantity > 1) 
+      {
+        return { ...item, productQuantity: item.productQuantity - 1 };
+      }
+      return item;
+    });
+  
+    setCart(updatedCart);
+}
+
   const toggleCart = () => {
     setcartOpenClose(!cartOpenClose);
-    setCartCount(cartCount);
-    setCart(cart);
   };
+
+  const cartDetailView = () => {
+    setcartOpenClose(!cartOpenClose);
+
+    setCartDetailOpened(!cartDetailOpened);
+  };
+
   useEffect(() => {
     let toplamFiyat = 0;
     setCartCount(cart.length);
-    cart.map((cart) => (toplamFiyat += cart.price));
+    cart.map((cart) => (toplamFiyat += cart.price * cart.productQuantity));
     setTotal(toplamFiyat);
   }, [cart]);
 
-  //console.log(total)
+
   return (
     <div>
       <Navigate
@@ -53,11 +81,11 @@ function ProductList() {
         removeCart={removeCart}
         toggleCart={toggleCart}
         cartOpenClose={cartOpenClose}
+        cartDetailView={cartDetailView}
       />
-
       <div id="product">
         {products.map((product) => (
-          <div className="product-cart">
+          <div key={products.id} className="product-cart">
             <i
               className="fa-solid fa-image fa-2xl"
               style={{ color: "#fecb3e" }}
@@ -70,7 +98,8 @@ function ProductList() {
           </div>
         ))}
       </div>
-      <CartDetailsView/>
+
+      <CartDetailsView cart={cart} total={total} cartCount={cartCount}decreaseCartItemQuantity={decreaseCartItemQuantity} />
     </div>
   );
 }
