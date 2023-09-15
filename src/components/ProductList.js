@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navigate from "./Navigate";
+import CartDetailsView from "./CartDetailsView";
 
 function ProductList() {
   const [products, setProducts] = useState([
@@ -69,6 +70,7 @@ function ProductList() {
           </div>
         ))}
       </div>
+      <CartDetailsView/>
     </div>
   );
 }

@@ -95,3 +95,15 @@ body {
   width: 30vw;
   text-align: center;
 }
+
+#cart-detail{
+  width: 100%;
+  background-color: aqua;
+}
+#cart-detail table{
+  width: 100%;
+
+}
+#cart-detail table tbody tr td{
+ text-align: center;
+}
