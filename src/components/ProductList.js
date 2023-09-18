@@ -34,7 +34,6 @@ function ProductList() {
     }
     let cartSayi = cartCount + 1;
     setCartCount(cartSayi);
-    console.log(cart);
   };
 
   const removeCart = (product) => {
@@ -42,17 +41,20 @@ function ProductList() {
   };
 
   const decreaseCartItemQuantity = (product) => {
-    const updatedCart = cart.map((item) => 
-    {
-      if (item.id === product.id && item.productQuantity > 1) 
-      {
-        return { ...item, productQuantity: item.productQuantity - 1 };
+    const updatedCart = cart.map((item) => {
+      if (item.id === product.id) {
+        if(item.productQuantity>1)
+        {
+          return { ...item, productQuantity: item.productQuantity - 1 };
+        }
+          return false
       }
       return item;
     });
-  
+
     setCart(updatedCart);
-}
+    console.log(cart);
+  };
 
   const toggleCart = () => {
     setcartOpenClose(!cartOpenClose);
@@ -70,7 +72,6 @@ function ProductList() {
     cart.map((cart) => (toplamFiyat += cart.price * cart.productQuantity));
     setTotal(toplamFiyat);
   }, [cart]);
-
 
   return (
     <div>
@@ -99,7 +100,12 @@ function ProductList() {
         ))}
       </div>
 
-      <CartDetailsView cart={cart} total={total} cartCount={cartCount}decreaseCartItemQuantity={decreaseCartItemQuantity} />
+      <CartDetailsView
+        cart={cart}
+        total={total}
+        cartCount={cartCount}
+        decreaseCartItemQuantity={decreaseCartItemQuantity}
+      />
     </div>
   );
 }
