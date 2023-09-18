@@ -17,7 +17,7 @@ function ProductList() {
     { id: 9, name: "Çikolata", price: 20 },
   ]);
 
-  
+
   const [total, setTotal] = useState(0);
   const [cart, setCart] = useState([]);
   const [cartOpenClose, setcartOpenClose] = useState(false);
