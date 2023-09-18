@@ -102,9 +102,17 @@ body *{
   padding: 5%;
 }
 #cart-detail table{
+  margin-top: 15px;
   width: 100%;
   border: 1px solid black;
 
+}
+#cart-detail button{
+  margin-top: 20px;
+  background-color: rgb(88, 149, 151);
+  color: white;
+  border-radius: 8px;
+  font-size: 15px;
 }
 #cart-detail table tbody tr td{
  text-align: center;

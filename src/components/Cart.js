@@ -33,6 +33,7 @@ function Cart(props) {
         <tfoot></tfoot>
       </table>
       <h3>Toplam : {props.total} ₺</h3>
+      
       <button onClick={props.cartDetailView}>View Cart Detail Page</button>
     </div>
   ) : (

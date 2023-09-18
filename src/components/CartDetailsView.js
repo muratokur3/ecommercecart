@@ -1,10 +1,12 @@
 import React from "react";
 
-function CartDetailsView({ cart, total,decreaseCartItemQuantity,totalQuantity}) {
+function CartDetailsView({ cart, total,decreaseCartItemQuantity,totalQuantity,productView}) {
   
+
   return (
     <div>
       <div id="cart-detail">
+        <button onClick={productView}>Ürünler</button>
         <table>
           <thead>
             <tr>

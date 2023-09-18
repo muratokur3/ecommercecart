@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Navigate from "./Navigate";
 import CartDetailsView from "./CartDetailsView";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ProductList() {
   const [products, setProducts] = useState([
@@ -16,13 +17,12 @@ function ProductList() {
     { id: 9, name: "Çikolata", price: 20 },
   ]);
 
-  const [cartCount, setCartCount] = useState(0);
+  
   const [total, setTotal] = useState(0);
   const [cart, setCart] = useState([]);
   const [cartOpenClose, setcartOpenClose] = useState(false);
   const [cartDetailOpened, setCartDetailOpened] = useState(true);
-  const [totalQuantity,setTotalQuantity] = useState(0);
-
+  const [totalQuantity, setTotalQuantity] = useState(0);
 
   const addCart = (product) => {
     const urunvarmi = cart.find((item) => item.id === product.id);
@@ -32,12 +32,17 @@ function ProductList() {
           ? { ...item, productQuantity: item.productQuantity + 1 }
           : item
       );
+
       setCart(ubdateCart);
+      toast.success("Ürün Eklendi", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     } else {
       setCart([...cart, { ...product, productQuantity: 1 }]);
+      toast.success("Ürün Eklendi", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     }
-    let cartSayi = cartCount + 1;
-    setCartCount(cartSayi);
   };
 
   const removeCart = (product) => {
@@ -64,56 +69,65 @@ function ProductList() {
   };
 
   const cartDetailView = () => {
-    setcartOpenClose(!cartOpenClose);
-    setCartDetailOpened(!cartDetailOpened);
+    setcartOpenClose(false);
+    setCartDetailOpened(false);
+  };
+
+  const productView = () => {
+    setCartDetailOpened(true);
   };
 
   useEffect(() => {
     let toplamFiyat = 0;
-    setCartCount(cart.length);
+   
     cart.map((cart) => (toplamFiyat += cart.price * cart.productQuantity));
     setTotal(toplamFiyat);
-    let tq=0
-    cart.map((item)=>{tq+=item.productQuantity});
-   setTotalQuantity(tq)
-   console.log(totalQuantity);
+    let tq = 0;
+    cart.map((item) => {
+      tq += item.productQuantity;
+    });
+    setTotalQuantity(tq);
   }, [cart]);
 
   return (
     <div>
+      <ToastContainer />
       <Navigate
         cart={cart}
         total={total}
-        cartCount={cartCount}
         removeCart={removeCart}
         toggleCart={toggleCart}
         cartOpenClose={cartOpenClose}
         cartDetailView={cartDetailView}
         totalQuantity={totalQuantity}
       />
-      <div id="product">
-        {products.map((product) => (
-          <div key={products.id} className="product-cart">
-            <i
-              className="fa-solid fa-image fa-2xl"
-              style={{ color: "#fecb3e" }}
-            ></i>
-            <p>{product.name}</p>
-            <h3>{product.price}.00 ₺</h3>
-            <button onClick={() => addCart(product)} className="add-cart">
-              Add Cart
-            </button>
-          </div>
-        ))}
-      </div>
+      {cartDetailOpened && (
+        <div id="product">
+          {products.map((product) => (
+            <div key={products.id} className="product-cart">
+              <i
+                className="fa-solid fa-image fa-2xl"
+                style={{ color: "#fecb3e" }}
+              ></i>
+              <p>{product.name}</p>
+              <h3>{product.price}.00 ₺</h3>
+              <button onClick={() => addCart(product)} className="add-cart">
+                Add Cart
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
 
-      <CartDetailsView
-        cart={cart}
-        total={total}
-        cartCount={cartCount}
-        decreaseCartItemQuantity={decreaseCartItemQuantity}
-        totalQuantity={totalQuantity}
-      />
+      {!cartDetailOpened && (
+        <CartDetailsView
+          cart={cart}
+          total={total}
+          decreaseCartItemQuantity={decreaseCartItemQuantity}
+          totalQuantity={totalQuantity}
+          productView={productView}
+        />
+      )}
     </div>
   );
 }
