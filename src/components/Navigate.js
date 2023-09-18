@@ -10,6 +10,7 @@ function Navigate(props) {
         cart={props.cart}
         toggleCart={props.toggleCart}
         cartCount={props.cartCount}
+        totalQuantity={props.totalQuantity}
       />
       <Cart
         cart={props.cart}

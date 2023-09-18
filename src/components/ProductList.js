@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navigate from "./Navigate";
 import CartDetailsView from "./CartDetailsView";
-import Cart from "./Cart";
+
 
 function ProductList() {
   const [products, setProducts] = useState([
@@ -15,11 +15,18 @@ function ProductList() {
     { id: 8, name: "Parfüm", price: 400 },
     { id: 9, name: "Çikolata", price: 20 },
   ]);
+
   const [cartCount, setCartCount] = useState(0);
   const [total, setTotal] = useState(0);
   const [cart, setCart] = useState([]);
   const [cartOpenClose, setcartOpenClose] = useState(false);
   const [cartDetailOpened, setCartDetailOpened] = useState(true);
+  const [totalQuantity,setTotalQuantity] = useState(0);
+
+  
+
+
+
   const addCart = (product) => {
     const urunvarmi = cart.find((item) => item.id === product.id);
     if (urunvarmi) {
@@ -43,17 +50,16 @@ function ProductList() {
   const decreaseCartItemQuantity = (product) => {
     const updatedCart = cart.map((item) => {
       if (item.id === product.id) {
-        if(item.productQuantity>1)
-        {
+        if (item.productQuantity > 1) {
           return { ...item, productQuantity: item.productQuantity - 1 };
+        } else {
+          return null;
         }
-          return false
       }
       return item;
     });
-
-    setCart(updatedCart);
-    console.log(cart);
+    const filteredCart = updatedCart.filter((item) => item !== null);
+    setCart(filteredCart);
   };
 
   const toggleCart = () => {
@@ -62,7 +68,6 @@ function ProductList() {
 
   const cartDetailView = () => {
     setcartOpenClose(!cartOpenClose);
-
     setCartDetailOpened(!cartDetailOpened);
   };
 
@@ -71,6 +76,10 @@ function ProductList() {
     setCartCount(cart.length);
     cart.map((cart) => (toplamFiyat += cart.price * cart.productQuantity));
     setTotal(toplamFiyat);
+    let tq=0
+    cart.map((item)=>{tq+=item.productQuantity});
+   setTotalQuantity(tq)
+   console.log(totalQuantity);
   }, [cart]);
 
   return (
@@ -83,6 +92,7 @@ function ProductList() {
         toggleCart={toggleCart}
         cartOpenClose={cartOpenClose}
         cartDetailView={cartDetailView}
+        totalQuantity={totalQuantity}
       />
       <div id="product">
         {products.map((product) => (
@@ -105,6 +115,7 @@ function ProductList() {
         total={total}
         cartCount={cartCount}
         decreaseCartItemQuantity={decreaseCartItemQuantity}
+        totalQuantity={totalQuantity}
       />
     </div>
   );

@@ -1,9 +1,7 @@
 import React from "react";
 
-function CartDetailsView({ cart, total,decreaseCartItemQuantity }) {
-  let totalQuantity = 0;
-  cart.map((item) => (totalQuantity += item.productQuantity));
-
+function CartDetailsView({ cart, total,decreaseCartItemQuantity,totalQuantity}) {
+  
   return (
     <div>
       <div id="cart-detail">
