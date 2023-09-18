@@ -23,9 +23,6 @@ function ProductList() {
   const [cartDetailOpened, setCartDetailOpened] = useState(true);
   const [totalQuantity,setTotalQuantity] = useState(0);
 
-  
-
-
 
   const addCart = (product) => {
     const urunvarmi = cart.find((item) => item.id === product.id);
