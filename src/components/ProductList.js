@@ -43,17 +43,18 @@ function ProductList() {
   const decreaseCartItemQuantity = (product) => {
     const updatedCart = cart.map((item) => {
       if (item.id === product.id) {
-        if(item.productQuantity>1)
-        {
+        if (item.productQuantity > 1) {
           return { ...item, productQuantity: item.productQuantity - 1 };
+        } else {
+          return null;
         }
-          return false
       }
       return item;
     });
-
-    setCart(updatedCart);
-    console.log(cart);
+  
+    const filteredCart = updatedCart.filter((item) => item !== null);
+    setCart(filteredCart);
+    console.log(filteredCart);
   };
 
   const toggleCart = () => {
